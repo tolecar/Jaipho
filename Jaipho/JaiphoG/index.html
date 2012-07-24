@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	 
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	
+	<title>Jaipho - iPhone optimized javascript gallery</title>
+
+	<!-- 
+		JAIPHO BETA version 0.55.00 - iPhone optimized javascript gallery
+		Check on http://www.jaipho.com/ for latest news and source updates 
+	 -->
+	 
+	
+		<link href="jaipho/Themes/Default/jaipho.css" rel="stylesheet" type="text/css"/>
+		
+	<!--
+		IPAD FIX - TO BE ENABLED IF IPAD USER IS DETECTED
+		<link href="jaipho/Themes/Default/jaipho-ipad.css" rel="stylesheet" type="text/css"/>
+	-->
+			
+			<!--
+			
+			The whole source in one file.
+		
+			-->	
+			
+				<script src="jaipho/jaipho-0.55.00-preload-src.js" type="text/javascript"></script>
+			<!--	
+			
+			Developer version. All classes are in separate files. Much easier to debug.
+		
+			
+				<script src="jaipho/Jph/Util/Touches.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Util/PreloaderItem.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Util/Preloader.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Util/OrientationManager.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Util/Event.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Util/Console.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/common.js" type="text/javascript"></script>
+			-->			
+			
+	<script type="text/javascript">
+		
+		// CONFIGURATION BLOCK
+		// v 0.55
+		
+		// basic parameters
+		var TOOLBARS_HIDE_TIMEOUT				=	5000;
+		var SLIDESHOW_ROLL_TIMEOUT				=	4000;
+		var SLIDE_SCROLL_DURATION				=	'0.4s';
+		var SLIDE_PRELOAD_TIMEOUT				=	1100;
+		var SLIDE_PRELOAD_SEQUENCE				=	'1,-1,2';
+		var SPLASH_SCREEN_DURATION				=	1000;
+		var DEFAULT_STARTUP_MODE				=	'thumbs';  // thumbs, slider, slideshow
+		var SLIDE_SPACE_WIDTH					=	40;
+
+		// advanced parameters
+		var ENABLE_SAFARI_HISTORY_PATCH			=	true;
+		var MAX_CONCURENT_LOADING_THUMBNAILS	=	4;
+		var MAX_CONCURENT_LOADING_SLIDE			=	1;
+		var MIN_DISTANCE_TO_BE_A_DRAG			=	70;
+		var MAX_DISTANCE_TO_BE_A_TOUCH			=	5;
+		var CHECK_ORIENTATION_INTERVAL			=	1000;
+		var BLOCK_VERTICAL_SCROLL				=	true;
+		var BASE_URL							=	'jaipho/';
+		var SLIDE_MAX_IMAGE_ELEMENS				=	50;
+		
+		// debug parameters
+		var DEBUG_MODE							=	false;
+		var DEBUG_LEVELS						=	'';
+		
+	 	if (DEBUG_MODE)
+			JphUtil_Console.CreateConsole( DEBUG_LEVELS);
+		
+	</script>	
+	
+</head>
+
+<body onload="init_jaipho()">
+	
+	<!-- 
+		Important! 
+		Do not remove elements with html attribute id set to some value. Those elements are required by javascript application.
+		All other can be customized as required by project needs.
+	 -->
+	
+	<!-- SPLASH SCREEN -->
+	<table id="splash-screen" class="splash-screen">
+	<tr>
+		<td class="text">
+		JAIPHO
+		</td>
+	</tr>
+	<tr>
+		<td class="image">
+		&nbsp;
+		</td>
+	</tr>
+	</table>
+	
+	<script type="text/javascript">
+	
+		// SPLASH SCREEN INIT	
+		scrollTo(0,1);
+				var or_mngr	=	new JphUtil_OrientationManager( 320, 480);	// iPhone version
+		// var or_mngr	=	new JphUtil_OrientationManager( 768, 1024); // iPad version
+		
+		or_mngr.Init();
+
+	</script>
+	
+	<!-- JAIPHO PRELOAD IMAGES -->
+	<div id="preloader">
+	</div>
+		
+	<!-- THUMBNAILS -->
+	<div class="toolbar" id="thumbs-toolbar-top">
+	
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="wing">
+				<a class="button" href="list.html">
+					Galleries 
+				</a>
+			</td>
+			<td class="center">
+				Jaipho - iPhone optimized javascript gallery			</td>
+			<td class="wing"></td>
+		</tr>
+		</table>
+		
+	</div>
+	
+    <div id="thumbs-container">
+		<div id="thumbs-images-container">
+		</div>	
+		<div id="thumbs-count-text">
+		</div>
+    </div>
+
+	
+	<!-- SLIDER -->
+	<div id="slider-overlay">
+		
+		<div class="toolbar" id="slider-toolbar-top">
+			
+			<table cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td class="wing">
+					<a class="button" href="javascript: app.ShowThumbsAction();">
+						Demo Album
+					</a> 
+				</td>
+				<td class="center" id="navi-info">
+				</td>
+				<td class="wing">&nbsp;</td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="toolbar" id="slider-toolbar-bottom">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<td>
+					<a class="navi-button" id="navi-prev" href="javascript: void(0);">
+					</a> 
+				</td>
+				<td style="width: 80px;">
+					<a class="navi-button" id="navi-play" href="javascript: void(0);">
+					</a>
+					<a class="navi-button" id="navi-pause" href="javascript: void(0);">
+					</a>
+				</td>
+				<td>
+					<a class="navi-button" id="navi-next" href="javascript: void(0);">
+					</a>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	
+    <div id="slider-container">
+    </div>
+
+
+			<!--
+			
+			The whole source in one file.
+		
+			-->	
+			
+				<script src="jaipho/jaipho-0.55.00-main-src.js" type="text/javascript"></script>
+			<!--	
+			
+			Developer version. All classes are in separate files. Much easier to debug.
+		
+			
+				<script src="jaipho/Jph/Thumbs/Manager.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Thumbs/Item.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Thumbs/Behavior.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/ToolbarsManager.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/SlideShow.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/SliderControls.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/Slider.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/Slide.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/ImageQueue.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/Description.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/ComponentVisibility.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Slider/Behavior.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/SafariHistory.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/NaviButton.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Image.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/History.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Dao.js" type="text/javascript"></script>
+				<script src="jaipho/Jph/Application.js" type="text/javascript"></script>
+			-->			
+			
+	<script type="text/javascript">
+
+		// APPLICATION INIT BLOCK 
+		// v 0.53
+		
+		 // load images
+		var dao	=	new Jph_Dao();
+
+			dao.ReadImage( 0,'test-image-1.jpg','test-image-1-thumb.jpg','','');
+			dao.ReadImage( 1,'test-image-2.jpg','test-image-2-thumb.jpg','JAIPHO beta','Congratulations. It seems that your installation is working OK.');	
+		// global reference to jaipho application
+		var app;
+		var splash	=	document.getElementById( 'splash-screen');
+		function init_jaipho()
+		{
+			if (SPLASH_SCREEN_DURATION > 0)
+				splash.style.display	=	'table';
+			
+			setTimeout('_init_jaipho()', SPLASH_SCREEN_DURATION);
+		}
+		
+		function _init_jaipho()
+		{
+			// remove splash screen
+			splash.style.display	=	'none';
+			
+			// start jaipho
+			app	=	new Jph_Application( dao, or_mngr, splash);
+			app.Init();
+			app.Run();
+		}
+		
+	</script>
+	
+	
+				
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* 
+	v 1.02.00
+*/
+
+body {
+	min-height: 916px; /* 63 */
+}
+
+body[orient="landscape"] 
+{
+	min-height: 660px; /* 51 */
+}
+
+
+/* TOOLBARS */
+.toolbar table
+{
+	width: 768px;
+}
+body[orient="landscape"] .toolbar table
+{
+	width: 1024px;
+}
+
+.toolbar table .wing
+{
+	width:200px; /* x2 */
+}
+body[orient="landscape"] .toolbar table .wing
+{
+	width:240px; /* x2 */
+}
+
+.toolbar table .center
+{
+	width:368px;
+}
+
+body[orient="landscape"] .toolbar table .center
+{
+	width:544px;
+}
+ 
+#thumbs-count-text
+{
+	padding-top: 40px;
+	padding-bottom: 60px;
+}
+
+/* SLIDE  */
+#slider-container .slide
+{
+	width: 768px;
+}
+body[orient="landscape"] #slider-container .slide
+{
+	width:1024px;	
+}
+
+#slider-container .slide img
+{	
+	max-width: 768px;
+	max-height: 916px; /* 63 */
+}
+
+body[orient="landscape"] #slider-container .slide img
+{	
+	max-width: 1024px;
+	max-height: 660px; /* 51 */
+}
+
+
+#slider-desc-container
+{
+	width:768px;
+	height:828px; /* 152 */
+	top:44px;
+}
+body[orient="landscape"] #slider-desc-container
+{
+	width:1024px;
+	height:572px; /* 142 */
+	top:44px;
+}
+#slider-toolbar-bottom
+{
+	top: 872px; /* 107 */
+}
+
+body[orient="landscape"] #slider-toolbar-bottom
+{
+	top: 616px; /* 95 */
+}
+
+/* NAVI ELEMENTS */
+.button {
+	min-width: 70px; /* x2 */
+	max-width: 120px; /* x2 */
+}
+
+body[orient="landscape"] .button {
+	max-width: 200px; /* x2 */
+}
+
+/* SPLASH SCREEN */
+#splash-screen
+{
+	height: 916px; /* 63 */
+}
+body[orient="landscape"] #splash-screen
+{
+	height: 660px; /* 51 */
+}

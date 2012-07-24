@@ -1,0 +1,93 @@
+v 0.55.00 
+2011.09.15
+
+Changes summary:
+	- animation is performed with css 3d translations, which is much smoother
+	- simplified slider table structure - no spacers and dummy.gif
+	- css slightly changed - removed now deprecated css selectors for slider table  
+	- added SLIDE_SPACE_WIDTH javascript constant which defines empty space between slides (can be set even to 0)
+	- added sticky finger feature on image slider 
+
+
+
+------------------------------------------------------------------
+
+v 0.54.00 iPad support
+2010.09.01
+
+Changes summary:
+	- added jaipho-ipad.css which contains iPad screen size values
+	- navi button images are defined in css (was defined in html)
+	- added list.html with template for listing galleries
+	- distributed with two templates: Default and iUI
+ 
+ 
+
+------------------------------------------------------------------
+v 0.53.00 Splash screen
+2010.04.04
+
+Changes summary:
+	 - added css classes for splash screen
+	 - added two configuration values (SPLASH_SCREEN_DURATION and DEFAULT_STARTUP_MODE)
+	 - added html block with splash screen content
+	 - javascript source is split at two, and it is loaded separately on two places in html template
+	 - in html template, two javascript funcntions are added to support the splash screen / gallery modes.  
+
+Description:
+	Added splash screen functionality. Splash screen is the first thing which is displayed. It stands on for minimally SPLASH_SCREEN_DURATION seconds. Gallery itself is displayed after that period is exceeded.
+	If you set SPLASH_SCREEN_DURATION to 0, the gallery is displayed as soon the document onload is	triggered. The goal was also that splash screen is loaded as soon as possible. For that reason, the source is split in two parts. jaipho-0.53.00-preload-src.js is smaller and holds the Splash screen and some common functionalities. jaipho-0.53.00-main-src.js holds the rest of the Jaipho package.
+	
+	Added the new config value, DEFAULT_STARTUP_MODE, which determines in which mode Jaipho will be started in case that there are no url instruction (e.g. jaipho.php#thumbs) . 
+	Possible values are:
+		- thumbs - The thumbnails screen
+		- slider - Default value. Jaipho is started with first image opened
+		- slideshow - Slideshow is auto started. 
+ 
+ 
+
+------------------------------------------------------------------
+0.52.03 css fix
+2009.09.12
+
+Only jaipho.css file is updated with several layout bugs fixed.
+
+2px on bottom
+	If you customized Jaipho and you changed the background color for full screen mode to white, you could notice that under the bottom toll bar are 2px of extra space.
+
+2px on images
+	Till now there were 2px of unused space bellow images in full screen mode.
+
+Long titles are breaking the layout
+	If your gallery name was to long, the title displayed on top tool bar was broken into two lines. Now, your long titles will be automatically shorted and appended with "...".
+	
+Nicer back button
+	Back button is looking better and more iphonized (as they are looking in iUI)
+ 
+ 
+------------------------------------------------------------------
+0.52.02
+2009.08.30
+Full source file in previous version had the Jaipho source twice in it (0.52.00 and 0.52.01) what doubled the file size.
+This version has that file corrected.
+  
+------------------------------------------------------------------
+0.52.01
+2009.08.06
+Incorrect landscape mode behavior
+In OrientationManager was the hard coded value for device screen width, which was causing the incorrect display in landscape mode.
+
+White line before thumbs are loaded
+In thumbnails mode, before the thumbs were loaded, there was white line in thumbnail placeholder divs (gray squares). This was very noticeable on slower connections.
+This bug was produced in 0.51.
+
+
+------------------------------------------------------------------
+0.52.00 Javascript history patch
+2009.07.24
+
+History patch. Introduced new configuration parameter ENABLE_SAFARI_HISTORY_PATCH which by default workarounds this problem. One feature is lost when applying this patch: now the url in location bar does not changes as you navigate through Jaipho slides, so you can not send or add as favorite, direct link to particular slide.
+
+Large galleries patch (over 5 MB in total images size). There is limitation in iPhone Safari browser in caching loaded images. After 5 MB of loaded images (approx 100 iPhone optimized jpg-s), it just doesn't load new images anymore. No error is reported, all is working just OK, but new images are not shown. This version fixes it behavior, so when you broke that limit, it will destroy last used images and load new. As there is no way to detect when the cache is full, I added new configuration parameter which will set how many images can be preloaded in total SLIDE_MAX_IMAGE_ELEMENS. By default is set to 50.
+
+Lost touch events bugfix. It apply only if you are using Jaipho in old history mode (ENABLE_SAFARI_HISTORY_PATCH = false). If you were pressing Back in browser, Jaipho has lost ability to detect Touch events until you reloaded page. Now this is fixed.
